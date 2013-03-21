@@ -1,3 +1,6 @@
+ #encoding: utf-8
+
+
 class CartsController < ApplicationController
   # GET /carts
   # GET /carts.json
@@ -18,22 +21,22 @@ class CartsController < ApplicationController
       @cart = Cart.find(params[:id])
     rescue ActiveRecord::RecordNotFound
       logger.error "Попытка доступна к несуществующей карзине #{params[:id]}"
-      redirect_to store_url, notice "несуществующая корзина"
+      redirect_to store_url, notice: "несуществующая корзина"
     else
-      respond_to |format|
+      respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @cart }
     end
-    end
-    end
+  end
+end
+
     @cart = Cart.find(params[:id])
 
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @cart }
     end
-  end
-
+ 
   # GET /carts/new
   # GET /carts/new.json
   def new
@@ -85,12 +88,13 @@ class CartsController < ApplicationController
   # DELETE /carts/1
   # DELETE /carts/1.json
   def destroy
-    @cart = Cart.find(params[:id])
+    @cart = current_cart
     @cart.destroy
-
+    session[:cart_id] = nil
     respond_to do |format|
-      format.html { redirect_to carts_url }
-      format.json { head :no_content }
+      format.html { redirect_to store_url, notice: 'Теперь ваша пуста!' }
+      format.json { head :ok }
     end
   end
 end
+

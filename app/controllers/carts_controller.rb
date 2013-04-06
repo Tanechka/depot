@@ -30,12 +30,7 @@ class CartsController < ApplicationController
   end
 end
 
-    @cart = Cart.find(params[:id])
 
-    respond_to do |format|
-      format.html # show.html.erb
-      format.json { render json: @cart }
-    end
  
   # GET /carts/new
   # GET /carts/new.json
